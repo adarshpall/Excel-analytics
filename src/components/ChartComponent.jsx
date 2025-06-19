@@ -14,6 +14,7 @@ import { Bar, Line, Pie, Scatter } from 'react-chartjs-2';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
+// Register chart.js components
 ChartJS.register(
   BarElement,
   LineElement,
@@ -27,32 +28,61 @@ ChartJS.register(
 
 function ChartComponent({ data, xKey, yKey, chartType }) {
   if (!xKey || !yKey || data.length === 0) return null;
-  console.log("DATA ROW:", data[0]);
-console.log("XKEY:", xKey);
-console.log("YKEY:", yKey);
 
+  // 🧠 Validate for scatter chart
+  if (chartType === 'scatter') {
+    const invalid = data.some(
+      (row) => isNaN(row[xKey]) || isNaN(row[yKey])
+    );
+    if (invalid) {
+      return (
+        <p className="text-red-500 text-sm mt-4">
+          ❌ Scatter chart requires both X and Y values to be numeric.
+        </p>
+      );
+    }
+  }
 
   const labels = data.map(row => row[xKey]);
   const values = data.map(row => row[yKey]);
 
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: `${yKey} vs ${xKey}`,
-        data:
-          chartType === 'scatter'
-            ? data.map(row => ({ x: row[xKey], y: row[yKey] }))
-            : values,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-      },
-    ],
-  };
+  const chartData =
+    chartType === 'scatter'
+      ? {
+          datasets: [
+            {
+              label: `${yKey} vs ${xKey}`,
+              data: data.map(row => ({
+                x: Number(row[xKey]),
+                y: Number(row[yKey]),
+              })),
+              backgroundColor: 'rgba(75, 192, 192, 0.6)',
+              pointRadius: 5,
+            },
+          ],
+        }
+      : {
+          labels,
+          datasets: [
+            {
+              label: `${yKey} vs ${xKey}`,
+              data: values,
+              backgroundColor: 'rgba(75, 192, 192, 0.6)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+            },
+          ],
+        };
 
   const chartOptions = {
     responsive: true,
-    plugins: { legend: { position: 'top' } },
+    plugins: {
+      legend: { position: 'top' },
+    },
+    scales: chartType === 'scatter' ? {
+      x: { title: { display: true, text: xKey } },
+      y: { title: { display: true, text: yKey } },
+    } : {},
   };
 
   const downloadChart = async () => {

@@ -33,8 +33,19 @@ function Uploads({
         }
       });
 
+      const cols = res.data.columns;
       setData(res.data.data);
-      setColumns(res.data.columns);
+      setColumns(cols);
+
+      // ✅ Auto-select X & Y axis after upload
+      if (cols.length >= 2) {
+        setXKey(cols[0]);
+        setYKey(cols[1]);
+      } else if (cols.length === 1) {
+        setXKey(cols[0]);
+        setYKey(cols[0]);
+      }
+
       alert("✅ File uploaded! Chart is ready.");
     } catch (err) {
       alert(err.response?.data?.error || 'Upload failed');
