@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import { Toaster } from 'react-hot-toast';
 import Dashboard from './pages/Dashboard';
 import Uploads from './pages/Uploads';
 import ProfilePage from './pages/ProfilePage';
@@ -41,6 +41,7 @@ function App() {
 
   return (
     <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
+        <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
       {/* Background gradient + blur */}
       <div className='fixed inset-0 z-0'>
         <div className='absolute inset-0 bg-gradient-to-br via-gray-800 from-gray-900 opacity-80' />

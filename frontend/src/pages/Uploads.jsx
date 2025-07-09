@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import ChartComponent from '../components/ChartComponent';
 import ThreeDBarChart from '../components/3DBarChart';
+import toast from 'react-hot-toast';
 
 function Uploads({
   data,
@@ -46,9 +47,9 @@ function Uploads({
         setYKey(cols[0]);
       }
 
-      alert("✅ File uploaded! Chart is ready.");
+     toast.success("✅ File uploaded! Chart is ready.");
     } catch (err) {
-      alert(err.response?.data?.error || 'Upload failed');
+toast.error(err.response?.data?.error || '❌ Upload failed');
     }
   };
 

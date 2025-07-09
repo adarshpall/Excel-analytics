@@ -3,6 +3,7 @@ import { Box, Card, Typography, Button, TextField, Stack, useMediaQuery, useThem
 import profilePic from "../assets/profile.png";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
   const [formData,setFormData] = useState({
@@ -26,7 +27,7 @@ const ProfilePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Updated Data:", formData);
-    alert("Profile Updated Successfully");
+ toast.success("✅ Profile updated!");
   };
 
   return (
