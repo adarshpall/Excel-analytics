@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import toast from 'react-hot-toast';
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +40,12 @@ function Login({ onLogin }) {
       >
         Login
       </button>
+       <p className="text-gray-400 text-center mt-4 text-sm">
+         Don't have an account{" "}
+          <a href="/auth/signup" className="text-green-400 hover:underline">
+            Sign up?
+          </a>
+        </p>
     </div>
   );
 }

@@ -43,4 +43,18 @@ router.get('/history', requireAuth, async (req, res) => {
   }
 });
 
+// ✅ User-specific upload data (actual parsed Excel rows)
+router.get('/uploadss', requireAuth, async (req, res) => {
+  try {
+    const uploads = await Upload.find({ userId: req.user.id })
+      .sort({ uploadedAt: -1 });
+
+    // Optional: Only return filename, uploadedAt
+    res.json(uploads);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch user uploads' });
+  }
+});
+
 module.exports = router;

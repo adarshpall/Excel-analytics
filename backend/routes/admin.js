@@ -5,21 +5,26 @@ const requireAdmin = require('../middleware/requireAdmin');
 const User = require('../models/User');
 const Upload = require('../models/Upload');
 
+// 🔒 Apply global auth + admin check
+router.use(requireAuth);
+router.use(requireAdmin);
+
 // ✅ GET all users
-router.get('/users', requireAuth, requireAdmin, async (req, res) => {
+router.get('/users', async (req, res) => {
   const users = await User.find({}, 'email role createdAt');
   res.json(users);
 });
 
 // ✅ GET all uploads
-router.get('/uploads', requireAuth, requireAdmin, async (req, res) => {
+router.get('/uploads', async (req, res) => {
   const uploads = await Upload.find({})
     .populate('userId', 'email')
     .sort({ uploadedAt: -1 });
   res.json(uploads);
 });
-// Promote a user to admin
-router.put('/make-admin/:userId', requireAuth, requireAdmin, async (req, res) => {
+
+// ✅ Promote user to admin
+router.put('/make-admin/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
     await User.updateOne({ _id: userId }, { $set: { role: 'admin' } });

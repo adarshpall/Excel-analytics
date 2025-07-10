@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import toast from 'react-hot-toast';
 function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [uploads, setUploads] = useState([]);
 
-  const fetchData = async () => {
-    const token = localStorage.getItem('token');
-    const config = { headers: { Authorization: `Bearer ${token}` } };
 
-    try {
-      const [userRes, uploadRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/admin/users', config),
-        axios.get('http://localhost:5000/api/admin/uploads', config)
-      ]);
+ // ✅ make sure installed and imported
 
-      setUsers(userRes.data);
-      setUploads(uploadRes.data);
-    } catch (err) {
-      alert('Access denied or error fetching admin data');
-    }
+const fetchData = async () => {
+  const token = localStorage.getItem('token');
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
   };
+
+  try {
+    const [userRes, uploadRes] = await Promise.all([
+      axios.get('http://localhost:5000/api/admin/users', config),
+      axios.get('http://localhost:5000/api/admin/uploads', config),
+    ]);
+
+    setUsers(userRes.data);
+    setUploads(uploadRes.data);
+  } catch (err) {
+    const errorMsg =
+      err?.response?.data?.error ||
+      err?.response?.statusText ||
+      'Something went wrong while fetching admin data';
+
+    toast.error(`🚫 ${errorMsg}`);
+  }
+};
 
   useEffect(() => {
     fetchData();
@@ -32,7 +42,7 @@ function AdminPanel() {
       await axios.put(`http://localhost:5000/api/admin/make-admin/${userId}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert("User promoted to admin!");
+     toast.success("🎉 User promoted to admin!");
       fetchData(); // Refresh list
     } catch (err) {
       alert('Failed to promote user');

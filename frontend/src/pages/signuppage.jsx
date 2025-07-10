@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 const Signup = () => {
-  const [name, setName] = useState(""); // (optional, if you use full name later)
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -13,14 +15,16 @@ const Signup = () => {
 
     try {
       await axios.post("http://localhost:5000/api/auth/register", {
+        name,
         email,
         password,
-        // name, ← only include if backend supports it
+        location,
       });
-      alert("Signup successful! Please login.");
+
+      toast.success("🎉 Signup successful!");
       navigate("/auth/login");
     } catch (err) {
-      alert(err.response?.data?.error || "Signup failed");
+      toast.error(err.response?.data?.error || "Signup failed");
     }
   };
 
@@ -35,29 +39,48 @@ const Signup = () => {
               type="text"
               className="w-full p-3 bg-gray-700 rounded-lg text-white placeholder-gray-400"
               placeholder="Enter your full name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
+
+          <div>
+            <label className="block text-gray-400 mb-2">Location</label>
+            <input
+              type="text"
+              className="w-full p-3 bg-gray-700 rounded-lg text-white placeholder-gray-400"
+              placeholder="Your City or Country"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+            />
+          </div>
+
           <div>
             <label className="block text-gray-400 mb-2">Email</label>
             <input
               type="email"
               className="w-full p-3 bg-gray-700 rounded-lg text-white placeholder-gray-400"
               placeholder="Enter your email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
+
           <div>
             <label className="block text-gray-400 mb-2">Password</label>
             <input
               type="password"
               className="w-full p-3 bg-gray-700 rounded-lg text-white placeholder-gray-400"
               placeholder="Create a password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
+
           <button
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition duration-300"
@@ -65,6 +88,7 @@ const Signup = () => {
             Sign Up
           </button>
         </form>
+
         <p className="text-gray-400 text-center mt-4 text-sm">
           Already have an account?{" "}
           <a href="/auth/login" className="text-green-400 hover:underline">
