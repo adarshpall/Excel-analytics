@@ -11,7 +11,7 @@ const UserDashboard = () => {
     const fetchUploads = async () => {
       const token = localStorage.getItem('token');
       try {
-        const res = await axios.get('http://localhost:5000/api/upload/uploadss', {
+        const res = await axios.get('https://excel-analytics-2.onrender.com/api/upload/uploadss', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

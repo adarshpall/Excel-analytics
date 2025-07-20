@@ -16,8 +16,8 @@ const fetchData = async () => {
 
   try {
     const [userRes, uploadRes] = await Promise.all([
-      axios.get('http://localhost:5000/api/admin/users', config),
-      axios.get('http://localhost:5000/api/admin/uploads', config),
+      axios.get('https://excel-analytics-2.onrender.com/api/admin/users', config),
+      axios.get('https://excel-analytics-2.onrender.com/api/admin/uploads', config),
     ]);
 
     setUsers(userRes.data);
@@ -39,7 +39,7 @@ const fetchData = async () => {
   const makeAdmin = async (userId) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.put(`http://localhost:5000/api/admin/make-admin/${userId}`, {}, {
+      await axios.put(`https://excel-analytics-2.onrender.com/api/admin/make-admin/${userId}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
      toast.success("🎉 User promoted to admin!");

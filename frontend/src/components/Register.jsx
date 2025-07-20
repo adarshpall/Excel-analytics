@@ -7,7 +7,7 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { email, password });
+      await axios.post('https://excel-analytics-2.onrender.com/api/auth/register', { email, password });
       alert('Registered successfully! Now login.');
     } catch (err) {
       alert(err.response.data.error || 'Registration failed');

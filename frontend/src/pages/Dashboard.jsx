@@ -11,11 +11,11 @@ const Dashboard = () => {
     const fetchStats = async () => {
       const token = localStorage.getItem('token');
       try {
-        const resUsers = await axios.get('http://localhost:5000/api/admin/users', {
+        const resUsers = await axios.get('https://excel-analytics-2.onrender.com/api/admin/users', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const resUploads = await axios.get('http://localhost:5000/api/admin/uploads', {
+        const resUploads = await axios.get('https://excel-analytics-2.onrender.com/api/admin/uploads', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -32,7 +32,7 @@ const ProfilePage = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/user/me", {
+        const res = await axios.get("https://excel-analytics-2.onrender.com/api/user/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -63,7 +63,7 @@ const ProfilePage = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.put("http://localhost:5000/api/user/update", formData, {
+      await axios.put("https://excel-analytics-2.onrender.com/api/user/update", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("✅ Profile updated!");

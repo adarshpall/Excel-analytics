@@ -77,9 +77,17 @@ function App() {
         {!isAuthPage && <Topbar onLogout={handleLogout} />}
         <div className="flex-1 overflow-auto px-4 py-2">
           <Routes>
-            <Route path="/" element={
-  decoded?.role === 'admin' ? <Dashboard /> : <UserDashboard />
-} />
+<Route
+  path="/"
+  element={
+    <PrivateRoute
+      element={
+        decoded?.role === 'admin' ? <Dashboard /> : <UserDashboard />
+      }
+    />
+  }
+/>
+
             <Route
               path='/uploads'
               element={

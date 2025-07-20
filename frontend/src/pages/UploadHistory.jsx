@@ -8,7 +8,7 @@ function UploadHistory() {
     const fetchHistory = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/upload/history', {
+        const res = await axios.get('https://excel-analytics-2.onrender.com/api/upload/history', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUploads(res.data);
